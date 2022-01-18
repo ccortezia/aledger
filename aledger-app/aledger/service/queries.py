@@ -12,12 +12,7 @@ def retrieve_account(account_id: uuid.UUID) -> AccountView:
         raise AccountNotFound()
 
     # NOTE: balance calculation would normally be deferred to SQL storage.
-    balance = sum(
-        [
-            entry.amount * (-1 if entry.direction != account.direction else 1)
-            for entry in account.entries
-        ]
-    )
+    balance = account.balance
 
     return AccountView(
         id=account.id,

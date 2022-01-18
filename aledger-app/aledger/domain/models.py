@@ -35,6 +35,15 @@ class Account(BaseModel):
             )
         )
 
+    @property
+    def balance(self):
+        return sum(
+            [
+                entry.amount * (-1 if entry.direction != self.direction else 1)
+                for entry in self.entries
+            ]
+        )
+
 
 class Transaction(BaseModel):
     id: uuid.UUID
