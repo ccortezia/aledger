@@ -182,6 +182,7 @@ def test_post_transaction_with_two_legs_should_update_account_balances(
     assert response.status_code == 200
     assert response.json() == {
         "id": body["id"],
+        "name": "txn",
         "entries": [
             {
                 "id": entry_1["id"],
@@ -235,11 +236,16 @@ def test_post_transaction_with_three_legs_should_update_account_balances(
         "amount": 300000,
         "direction": "credit",
     }
-    body = {"id": str(uuid.uuid4()), "entries": [entry_1, entry_2, entry_3]}
+    body = {
+        "id": str(uuid.uuid4()),
+        "name": "my-transaction",
+        "entries": [entry_1, entry_2, entry_3],
+    }
     response = client.post("/transaction", json=body)
     assert response.status_code == 200
     assert response.json() == {
         "id": body["id"],
+        "name": "my-transaction",
         "entries": [
             {
                 "id": entry_1["id"],

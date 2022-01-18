@@ -5,6 +5,9 @@ from pydantic.types import constr
 from aledger.exceptions import AccountEntryAlreadyExists
 
 
+Label = constr(strip_whitespace=True, min_length=3, max_length=50)
+
+
 class Direction(enum.Enum):
     CREDIT = "credit"
     DEBIT = "debit"
@@ -19,7 +22,7 @@ class AccountEntry(BaseModel):
 
 class Account(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
-    name: constr(strip_whitespace=True, min_length=3, max_length=35)  # type: ignore
+    name: Label  # type: ignore
     direction: Direction
     entries: list[AccountEntry] = Field(default_factory=list)
 
@@ -47,6 +50,7 @@ class Account(BaseModel):
 
 class Transaction(BaseModel):
     id: uuid.UUID
+    name: Label  # type: ignore
     entries: list[AccountEntry]
 
     @property
