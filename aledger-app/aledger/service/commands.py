@@ -15,7 +15,7 @@ __all__ = [
 
 
 def post_transaction(cmd: commands.PostTransaction) -> Transaction:
-    txn = Transaction(id=cmd.id, entries=cmd.entries)
+    txn = Transaction(id=cmd.id, name=cmd.name, entries=cmd.entries)
 
     # Verifies the transaction's health before posting.
     if not txn.is_balanced:

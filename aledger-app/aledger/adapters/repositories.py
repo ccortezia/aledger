@@ -66,7 +66,7 @@ class InMemoryAccountRepository:
             raise AccountEntryAlreadyExists(repeated_entry_ids)
 
         # Prevent claimed account names from being reused.
-        if account.name != current_account.name:
+        if account.name != current_account.name:  # type: ignore
             if account.name in self._acc_names:
                 raise AccountNameAlreadyExists(account.name)
 
