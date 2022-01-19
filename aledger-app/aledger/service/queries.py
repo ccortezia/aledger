@@ -5,6 +5,17 @@ from .views import AccountView
 
 
 def retrieve_account(account_id: uuid.UUID) -> AccountView:
+    """RetrieveAccount Query Handler
+
+    Args:
+        account_id (uuid.UUID): the id of the account to retrieve
+
+    Raises:
+        AccountNotFound: when a valid account cannot be found for the given id.
+
+    Returns:
+        AccountView: details about the retrieved account
+    """
 
     # NOTE: data could be retrieved directly from storage, it could skip the repository.
     account = ACCOUNTS_REPOSITORY.get(account_id)

@@ -15,6 +15,23 @@ __all__ = [
 
 
 def post_transaction(cmd: commands.PostTransaction) -> Transaction:
+    """PostTransaction Command Handler
+
+    Validates and persists a transaction, and submits account entries to the respective
+    accounts. The transaction must be uniquely identified and balanced in to be accepted.
+
+    Args:
+        cmd (commands.PostTransaction): the command message
+
+    Raises:
+        TransactionUnbalanced: when the transaction entries don't balance.
+        AccountNotFound: when an entry refers to a non-existent account.
+        TransactionAlreadyExists: when a transaction already exists for the given id.
+        AccountEntryAlreadyExists: when an entry already exists for a given entry id.
+
+    Returns:
+        Transaction: details about the posted transaction.
+    """
     txn = Transaction(id=cmd.id, name=cmd.name, entries=cmd.entries)
 
     # Verifies the transaction's health before posting.
@@ -34,6 +51,20 @@ def post_transaction(cmd: commands.PostTransaction) -> Transaction:
 
 
 def register_account(cmd: commands.RegisterAccount) -> AccountView:
+    """RegisterAccount Command Handler
+
+    Attempts to create a new account. An account record must be unique to be accepted.
+
+    Args:
+        cmd (commands.RegisterAccount): the command message
+
+    Raises:
+        AccountAlreadyExists: when an account already exists for the given id.
+        AccountNameAlreadyExists: when an account with the given name already exists.
+
+    Returns:
+        AccountView: details about the created account
+    """
     account = Account(id=cmd.id, name=cmd.name, direction=cmd.direction)
     ACCOUNTS_REPOSITORY.add(account)
     return AccountView(
